@@ -3,7 +3,7 @@ import java.util.Stack;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(convertirEnPostfix("V = B * A * D + A / D"));
+		System.out.println(convertirEnPostfix("A = B + F * D"));
 	}
 
 	public static int priorite(char item) {
@@ -28,21 +28,21 @@ public class Main {
 	}
 
 	public static String convertirEnPostfix(String ExpInf) {
-		Stack<Character> pile = new Stack<Character>();
+		Stack<String> pile = new Stack<String>();
 		String ExpPost = "";
 		for (char item : ExpInf.toCharArray()) {
 			if (item == '(') {
-				pile.push(new Character(item));
+				pile.push("" + item);
 			} else if (Character.isLetter(item)) {
 				ExpPost += item;
 			} else if (estUnOperateur(item)) {
-				while (!pile.empty() && pile.peek().charValue() != '('
-						&& (priorite(item) <= priorite(pile.peek().charValue()))) {
+				while (!pile.empty() && pile.peek().charAt(0) != '('
+						&& (priorite(item) <= priorite(pile.peek().charAt(0)))) {
 					ExpPost += pile.pop();
 				}
-				pile.push(new Character(item));
+				pile.push("" + item);
 			} else if (item == ')') {
-				while (pile.peek().charValue() != '(') {
+				while (pile.peek().charAt(0) != '(') {
 					ExpPost += pile.pop();
 				}
 				pile.pop();
@@ -53,8 +53,8 @@ public class Main {
 		}
 		return ExpPost;
 	}
-	
+
 	public static void generateurCodeObjet(String ExpressionPostfix) {
-		
+
 	}
 }
