@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -58,6 +59,7 @@ public class Main {
 		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
 					// registres sont R[i] ou i est un entier qui s'incrémente.
 		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
+		ArrayList<String> Resultat = new ArrayList<String>(); // Resultat final
 		for(char item: ExpressionPostfix.toCharArray()) {
 			
 		}
