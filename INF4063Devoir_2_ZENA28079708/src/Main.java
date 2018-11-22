@@ -55,6 +55,11 @@ public class Main {
 	}
 
 	public static void generateurCodeObjet(String ExpressionPostfix) {
-
+		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
+					// registres sont R[i] ou i est un entier qui s'incrémente.
+		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
+		for(char item: ExpressionPostfix.toCharArray()) {
+			
+		}
 	}
 }
