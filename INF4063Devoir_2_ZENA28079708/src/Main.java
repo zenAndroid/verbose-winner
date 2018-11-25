@@ -1,10 +1,18 @@
 import java.util.Stack;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.Charset;
+import java.io.IOException;
+import java.io.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		System.out.println(convertirEnPostfix("A = B + F * D"));
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
+            bw.write("abc");
+        }
 	}
 
 	public static int priorite(char item) {
@@ -66,10 +74,7 @@ public class Main {
 	}
 }
 
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
-//import java.nio.charset.Charset;
-//import java.io.IOException;
+
 ////...other class code
 //List<String> lines = null;
 //try{
