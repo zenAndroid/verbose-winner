@@ -14,7 +14,7 @@ public class Main {
 //		try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
 //			bw.write("abc");
 //		}
-		
+
 	}
 
 	public static int priorite(char item) {
@@ -74,12 +74,32 @@ public class Main {
 			if (Character.isLetter(item)) { // Si l'item est un opérande
 				pileResultat.push("" + item);
 			}
-			if(estUnOperateur(item)) {      // Si l'item est un opérateur
-				if(item!='=') {
-					
+			if (estUnOperateur(item)) { // Si l'item est un opérateur
+				if (item != '=') {
+
 				}
 			}
 		}
+	}
+
+	public static String instructionObjet(char item) {
+		// Convertit un opérateur en son instruction objet
+		String instruction = null;
+		switch (item) {
+		case '+':
+			instruction = "ADD";
+		case '-':
+			instruction = "SOU";
+		case '*':
+			instruction = "MUL";
+		case '/':
+			instruction = "DIV";
+		case '^':
+			instruction = "EXP";
+		case '=':
+			instruction = "AFF";
+		}
+		return instruction;
 	}
 }
 
