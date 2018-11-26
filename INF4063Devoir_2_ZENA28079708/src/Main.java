@@ -69,14 +69,26 @@ public class Main {
 		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
 					// registres sont R[i] ou i est un entier qui s'incrémente.
 		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
+		String Resultat = "";
 		String temporaire = null; // Resultat temporaire
 		for (char item : ExpressionPostfix.toCharArray()) {
 			if (Character.isLetter(item)) { // Si l'item est un opérande
 				pileResultat.push("" + item);
 			}
 			if (estUnOperateur(item)) { // Si l'item est un opérateur
+				// On sait que tout les opérateur sont binaires, donc on dépile les arguments.
+				String ARG1 = pileResultat.pop();
+				String ARG2 = pileResultat.pop();
 				if (item != '=') {
-
+					String ARGS = "," + ARG2 + "," + ARG1;
+					String REG = "R" + Integer.toString(i);
+					i++;
+					String OP = instructionObjet(item);
+					Resultat += OP + REG + ARGS + '\n';
+				} else {
+					String ARGS = " " + ARG2 + "," + ARG1;
+					String OP = "AFF";
+					Resultat += OP + ARGS + '\n';
 				}
 			}
 		}
