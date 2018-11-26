@@ -9,10 +9,12 @@ import java.io.*;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		ArrayList<String> Resultat = new ArrayList<String>(); // Resultat final
 		System.out.println(convertirEnPostfix("A = B + F * D"));
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
-            bw.write("abc");
-        }
+//		try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
+//			bw.write("abc");
+//		}
+		
 	}
 
 	public static int priorite(char item) {
@@ -67,13 +69,19 @@ public class Main {
 		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
 					// registres sont R[i] ou i est un entier qui s'incrémente.
 		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
-		ArrayList<String> Resultat = new ArrayList<String>(); // Resultat final
-		for(char item: ExpressionPostfix.toCharArray()) {
-			
+		String temporaire = null; // Resultat temporaire
+		for (char item : ExpressionPostfix.toCharArray()) {
+			if (Character.isLetter(item)) { // Si l'item est un opérande
+				pileResultat.push("" + item);
+			}
+			if(estUnOperateur(item)) {      // Si l'item est un opérateur
+				if(item!='=') {
+					
+				}
+			}
 		}
 	}
 }
-
 
 ////...other class code
 //List<String> lines = null;
@@ -83,13 +91,11 @@ public class Main {
 //    //problem with the file
 //}
 /*
-import java.io.*;
-
-public class Test {
- 
-    public static void main(String[] args) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
-            bw.write("abc");
-        }
-    }
-}*/
+ * import java.io.*;
+ * 
+ * public class Test {
+ * 
+ * public static void main(String[] args) throws IOException { try
+ * (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
+ * bw.write("abc"); } } }
+ */
