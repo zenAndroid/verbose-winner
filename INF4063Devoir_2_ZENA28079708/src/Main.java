@@ -1,5 +1,5 @@
 import java.util.Stack;
-import java.util.ArrayList;
+import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.charset.Charset;
@@ -9,12 +9,22 @@ import java.io.*;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		ArrayList<String> Resultat = new ArrayList<String>(); // Resultat final
-		System.out.println(convertirEnPostfix("A = B + F * D"));
-//		try (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
-//			bw.write("abc");
-//		}
+		String resultat = "";
+		List<String> lines = null;
+		try {
+			lines = Files.readAllLines(Paths.get("input.txt"), Charset.defaultCharset());
+		} catch (IOException | SecurityException e) {
+			System.out.println(
+					"Erreur dans le fichier d'entrée, veuillez entrez le code source dans le fichier input.txt");
+		}
+		for (String string : lines) {
+			resultat += generateurCodeObjet(convertirEnPostfix(string)) + "\r\n";
+		}
 
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+			bw.write(resultat);
+		}
+		System.out.println("Resultat écrit dans output.txt");
 	}
 
 	public static int priorite(char item) {
@@ -36,6 +46,36 @@ public class Main {
 
 	public static boolean estUnOperateur(char item) {
 		return item == '+' || item == '-' || item == '*' || item == '/' || item == '^' || item == '=';
+	}
+	
+	public static String instructionObjet(char item) {
+		// Convertit un opérateur en son instruction objet
+		String instruction = null;
+		switch (item) {
+		case '+':
+			instruction = "ADD";
+			break;
+		case '-':
+			instruction = "SOU";
+			break;
+		case '*':
+			instruction = "MUL";
+			break;
+		case '/':
+			instruction = "DIV";
+			break;
+		case '^':
+			instruction = "EXP";
+			break;
+		case '=':
+			instruction = "AFF";
+			break;
+		}
+		return instruction;
+	}
+
+	public static boolean estUnRegistre(String arg) {
+		return arg.length() == 2;
 	}
 
 	public static String convertirEnPostfix(String ExpInf) {
@@ -65,69 +105,36 @@ public class Main {
 		return ExpPost;
 	}
 
-	public static void generateurCodeObjet(String ExpressionPostfix) {
+	public static String generateurCodeObjet(String ExpressionPostfix) {
 		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
 					// registres sont R[i] ou i est un entier qui s'incrémente.
 		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
 		String Resultat = "";
-		String temporaire = null; // Resultat temporaire
 		for (char item : ExpressionPostfix.toCharArray()) {
 			if (Character.isLetter(item)) { // Si l'item est un opérande
 				pileResultat.push("" + item);
 			}
 			if (estUnOperateur(item)) { // Si l'item est un opérateur
-				// On sait que tout les opérateur sont binaires, donc on dépile les arguments.
+				// On sait que tout les opérateur sont binaires, donc on dépile deux arguments.
 				String ARG1 = pileResultat.pop();
 				String ARG2 = pileResultat.pop();
 				if (item != '=') {
 					String ARGS = "," + ARG2 + "," + ARG1;
 					String REG = "R" + Integer.toString(i);
+					pileResultat.push(REG);
 					i++;
 					String OP = instructionObjet(item);
-					Resultat += OP + REG + ARGS + '\n';
+					Resultat += OP + " " + REG + ARGS + "\r\n";
 				} else {
 					String ARGS = " " + ARG2 + "," + ARG1;
 					String OP = "AFF";
-					Resultat += OP + ARGS + '\n';
+					Resultat += OP + ARGS + "\r\n";
 				}
 			}
 		}
+		Resultat = Resultat.substring(0, Resultat.length() - 1);
+		return Resultat;
 	}
 
-	public static String instructionObjet(char item) {
-		// Convertit un opérateur en son instruction objet
-		String instruction = null;
-		switch (item) {
-		case '+':
-			instruction = "ADD";
-		case '-':
-			instruction = "SOU";
-		case '*':
-			instruction = "MUL";
-		case '/':
-			instruction = "DIV";
-		case '^':
-			instruction = "EXP";
-		case '=':
-			instruction = "AFF";
-		}
-		return instruction;
-	}
+	
 }
-
-////...other class code
-//List<String> lines = null;
-//try{
-//    lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
-//}catch(IOException | SecurityException e){
-//    //problem with the file
-//}
-/*
- * import java.io.*;
- * 
- * public class Test {
- * 
- * public static void main(String[] args) throws IOException { try
- * (BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"))) {
- * bw.write("abc"); } } }
- */
