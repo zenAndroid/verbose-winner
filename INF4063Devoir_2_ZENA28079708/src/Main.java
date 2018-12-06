@@ -47,7 +47,7 @@ public class Main {
 	public static boolean estUnOperateur(char item) {
 		return item == '+' || item == '-' || item == '*' || item == '/' || item == '^' || item == '=';
 	}
-	
+
 	public static String instructionObjet(char item) {
 		// Convertit un opérateur en son instruction objet
 		String instruction = null;
@@ -106,7 +106,7 @@ public class Main {
 	}
 
 	public static String generateurCodeObjet(String ExpressionPostfix) {
-		int i = 0; // Variable utilisée pour savoir les registres disponibles, puisque les
+		int i = -1; // Variable utilisée pour savoir les registres disponibles, puisque les
 					// registres sont R[i] ou i est un entier qui s'incrémente.
 		Stack<String> pileResultat = new Stack<String>(); // Stockera les symboles des variables et les registres;
 		String Resultat = "";
@@ -118,11 +118,13 @@ public class Main {
 				// On sait que tout les opérateur sont binaires, donc on dépile deux arguments.
 				String ARG1 = pileResultat.pop();
 				String ARG2 = pileResultat.pop();
+				if (ARG1.length() == 1 && ARG2.length() == 1) {
+					i++;
+				}
 				if (item != '=') {
 					String ARGS = "," + ARG2 + "," + ARG1;
 					String REG = "R" + Integer.toString(i);
 					pileResultat.push(REG);
-					i++;
 					String OP = instructionObjet(item);
 					Resultat += OP + " " + REG + ARGS + "\r\n";
 				} else {
@@ -136,5 +138,4 @@ public class Main {
 		return Resultat;
 	}
 
-	
 }
